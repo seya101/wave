@@ -1,0 +1,39 @@
+{
+  "role": [
+    { "id": 0, "title": "Admin"},
+    { "id": 1, "title": "Studio Manager"},
+    { "id": 2, "title": "Team Lead"},
+    { "id": 3, "title": "OIC"}
+  ],
+  "groups": [
+    { "id": "KX724IUQ", "title": "Developers" },
+    { "id": "KX724M7I", "title": "Design" },
+    { "id": "KX724M7F", "title": "Motion" }
+  ],
+  "brands": [
+    { "id": 0, "title": "betboo" },
+    { "id": 1, "title": "bwin Sports" },
+    { "id": 2, "title": "bwin Casino" },
+    { "id": 3, "title": "Coral Gaming" },
+    { "id": 4, "title": "Coral Sports" },
+    { "id": 5, "title": "Coral Retail" },
+    { "id": 6, "title": "Cheeky" },
+    { "id": 7, "title": "Foxy Bingo" },
+    { "id": 8, "title": "Foxy Games" },
+    { "id": 9, "title": "Gala Bingo" },
+    { "id": 10, "title": "Gala Casino" },
+    { "id": 11, "title": "Gala Spins" },
+    { "id": 12, "title": "Entain" },
+    { "id": 13, "title": "Ladbrokes Gaming" },
+    { "id": 14, "title": "Ladbrokes Sports" },
+    { "id": 15, "title": "Ladbrokes Retail" },
+    { "id": 16, "title": "Party Casino" },
+    { "id": 17, "title": "Party Poker" },
+    { "id": 18, "title": "Sportingbet" },
+    { "id": 19, "title": "Vistabet" },
+    { "id": 20, "title": "Other" },
+    { "id": 21, "title": "Cross Brand - Gaming" },
+    { "id": 22, "title": "Cross Brand - Sports" },
+    { "id": 23, "title": "Wave" }
+  ]
+}
