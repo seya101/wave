@@ -27,13 +27,16 @@
     { "id": 13, "title": "Ladbrokes Gaming" },
     { "id": 14, "title": "Ladbrokes Sports" },
     { "id": 15, "title": "Ladbrokes Retail" },
-    { "id": 16, "title": "Party Casino" },
-    { "id": 17, "title": "Party Poker" },
-    { "id": 18, "title": "Sportingbet" },
-    { "id": 19, "title": "Vistabet" },
-    { "id": 20, "title": "Other" },
-    { "id": 21, "title": "Cross Brand - Gaming" },
-    { "id": 22, "title": "Cross Brand - Sports" },
-    { "id": 23, "title": "Wave" }
+    { "id": 16, "title": "PartyCasino" },
+    { "id": 17, "title": "PartyPoker" },
+    { "id": 18, "title": "PartySports" },
+    { "id": 19, "title": "PartyGaming" },
+    { "id": 20, "title": "PartyAll" },
+    { "id": 21, "title": "Sportingbet" },
+    { "id": 22, "title": "Vistabet" },
+    { "id": 23, "title": "Other" },
+    { "id": 24, "title": "Cross Brand - Gaming" },
+    { "id": 25, "title": "Cross Brand - Sports" },
+    { "id": 26, "title": "Wave" }
   ]
 }

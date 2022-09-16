@@ -1,9 +1,10 @@
 <template>
   <div>
     <!-- <NuxtLink to="/user/add" class="button is-success mt-5">Add New</NuxtLink> -->
-    <NuxtLayout :items="items" :role="role">
-      <Modal :items="items" :message="message" :group="group" :role="role" :brands="brands" :users="users" @cbTeam="grpId" @submit="save" />
-      <UserList :items="items" :name="userdata" :group="groupdata" :role="role" />
+    <NuxtLayout>
+      <Modal :showModal="showModal" :userdb="userdb" :message="message" :group="group" :role="role" :brands="brands" :users="users" @cbTeam="grpId" />
+      <!-- <UserList :items="items" :name="userdata" :group="groupdata" :role="role" /> -->
+      <UserList :userdb="userdb" :user_img="user_img" :fname="fname" :lname="lname" :grp="grp" :role="role" />
     </NuxtLayout>
   </div>
 </template>
@@ -24,56 +25,79 @@ export default {
       userdata: [],
       groupdata: [],
       message: '',
+      showModal: false,
     };
   },
-  setup() {
-    // const store = useStore();
+  props: {
+    userdb: Object,
+  },
+  setup(props) {
+    // from wrike
     const group = computed(() => store.state.group.data);
     store.dispatch('getGroupsData');
-
     const role = store.state.role.data;
-    const brands = store.state.brands.data;
-    console.log(brands)
+    const brands = computed(() => store.state.brands.data);
+    store.dispatch('getBrands');
 
-    return { group, role, brands }
-  },
-  created() {
-    this.getUsers();
-  },
-  methods: {
-    //all users
-    async getUsers() {
-      try {
-        const res = await axios.get('http://localhost:8000/users');
-        //users from db
-        this.items = res.data;
-        // console.log(res.data.map((i)=>i.group_id))
-        this.id = res.data.map((i)=>i.user_id);
-        const grpid = res.data.map((i)=>i.group_id);
-        const Arr = [];
-        const grpArr = [];
-        for (let i = 0; i<res.data.length; i++) {
-          Arr.push(
-            axiosClient.get(`/contacts/${this.id[i]}`).then((r) => new Promise((res) => res(r.data.data)))
-          );
-          grpArr.push(
-            axiosClient.get(`/groups/${grpid[i]}`).then((s) => new Promise((res) => res(s.data.data)))
-          );
-        }
-        //all users from api via group_id
-        Promise.all(Arr).then((r) => {
-          this.userdata = r.flat();
-          // console.log(this.userdata)
+    // from db
+    // const userdb = ref([]);
+    const userapi = ref([]);
+    const groupapi = ref([]);
+
+    onMounted(async () => {
+      // const res = await axios.get('http://localhost:8000/users');
+      // userdb.value = res.data;
+      // const user = res.data.map((i)=>i.user_id);
+      // const g = res.data.map((i)=>i.group_id);
+      const user = props.userdb.map((i)=>i.user_id);
+      const g = props.userdb.map((i)=>i.group_id);
+      const UserArr = [];
+      const GroupArr = [];
+
+      for(let u = 0; u < props.userdb.length; u++) {
+        UserArr.push(
+          axiosClient.get(`/contacts/${user[u]}`).then((r) => new Promise((res) => res(r.data.data)))
+        );
+        GroupArr.push(
+          axiosClient.get(`/groups/${g[u]}`).then((s) => new Promise((res) => res(s.data.data)))
+        );
+      }
+      //all users from api via group_id
+      Promise.all(UserArr).then((r) => {
+          userapi.value = r.flat();
         })
         //all groups
-        Promise.all(grpArr).then((s) => {
-          this.groupdata = s.flat();
-          // console.log(this.groupdata)
+        Promise.all(GroupArr).then((s) => {
+          groupapi.value = s.flat();
         })
-      } catch (err) {
-        console.log(err);
-      }
+    })
+
+    return { 
+      group, 
+      role, 
+      brands,
+      userapi, 
+      groupapi,
+    } 
+  },
+  created() {},
+  mounted() {},
+  computed: {
+    fname() {
+      console.log(this.userdb)
+      return this.userapi.map((f) => f.firstName)
     },
+    lname() {
+      return this.userapi.map((l) => l.lastName)
+    },
+    user_img() {
+      return this.userapi.map((i) => i.avatarUrl)
+    },
+    grp() {
+      return this.groupapi.map((t) => t.title)
+    },
+  },
+  methods: {
     // delete user
     async deleteUser(id) {
       try {
@@ -84,7 +108,7 @@ export default {
       }
     },
     grpId(id) {
-      console.log(id);
+      console.log(this.userdb)
       this.grpId = id;
       axiosClient.get(`/groups/${id}`).then((r) => {
         // this.grpName = r.data.data.map((t) => t.title).toString();
@@ -107,30 +131,7 @@ export default {
       this.userId = id;
       // console.log(this.userId)
     },
-    async save(d) {
-      const userId = d.map((i) => i.user_id);
-      const groupId = d.map((i) => i.group_id);
-      const brands = d.map((i) => i.brands);
-      const role = d.map((r) => r.role);
-      const router = useRouter();
-
-      try {
-        await axios.post('http://localhost:8000/users', {
-          user_id: userId,
-          group_id: groupId,
-          brands: brands.toString(),
-          role: role
-        });
-        // userId = '';
-        // groupId = '';
-        // role = '';
-        router.push('/user');
-      } catch (err) {
-        console.log(err)
-      }
-      console.log(userId, brands)
-    }
-  }
+  },
 }
 </script>
 

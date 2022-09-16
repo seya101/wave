@@ -4,6 +4,7 @@
     v-model="selected" 
     @update:modelValue="check"
   >
+    <!-- <Combobox v-model="selected"> -->
       <div class="relative mt-3">
         <Listbox>
           <ListboxLabel 
@@ -33,7 +34,7 @@
             sm:text-sm"
         >
           <ComboboxInput
-            :displayValue="(o) => o.firstName && (o.firstName+ ' ' + o.lastName)"
+            :displayValue="(o) => o.title"
             @input="query = $event.target.value"
             :placeholder="props.placeholder"
             class="w-full 
@@ -49,7 +50,12 @@
           />
           <!-- {{ selected.id }} -->
           <ComboboxButton
-            class="absolute inset-y-0 right-0 flex items-center pr-2"
+            class="absolute 
+              inset-y-0 
+              right-0 
+              flex 
+              items-center 
+              pr-2"
           >
             <SelectorIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
           </ComboboxButton>
@@ -89,7 +95,6 @@
               :key="o.id"
               :value="o"
               v-slot="{ selected, active }"
-              :disabled="disable(o.id)"
             >
               <li
                 class="relative cursor-default select-none py-2 pl-10 pr-4"
@@ -102,7 +107,34 @@
                   class="block truncate"
                   :class="{ 'font-medium selected': selected, 'font-normal': !selected }"
                 >
-                  {{ o.firstName }} {{ o.lastName }} {{ roleId(o.id) }}
+                  {{ o.title }}
+                </span>
+                <span
+                  v-if="selected"
+                  class="absolute inset-y-0 left-0 flex items-center pl-3"
+                  :class="{ 'text-white': active, 'text-teal-600': !active }"
+                >
+                  <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                </span>
+              </li>
+            </ComboboxOption>
+            <ComboboxOption
+              as="template"
+              :value="`All`"
+              v-slot="{ selected, active }"
+            >
+              <li
+                class="relative cursor-default select-none py-2 pl-10 pr-4"
+                :class="{
+                  'bg-teal-600 text-white': active,
+                  'text-gray-900': !active,
+                }"
+              >
+                <span
+                  class="block truncate"
+                  :class="{ 'font-medium selected': selected, 'font-normal': !selected }"
+                >
+                  All
                 </span>
                 <span
                   v-if="selected"
@@ -115,12 +147,12 @@
             </ComboboxOption>
           </ComboboxOptions>
         </TransitionRoot>
+        <!-- {{selected}} -->
       </div>
     </Combobox>
 </template>
 
 <script setup>
-  import store from '../store';
   import { ref, computed } from 'vue'
   import {
     Combobox,
@@ -139,58 +171,41 @@
     options: { type: Object },
     header: { type: String },
     placeholder: { type: String },
-    userdb: { type: Object },
-  });
+    // modelValue: {
+    //   type: String,
+    //   default: ''
+    // }
+  })
 
-  const role = store.state.role.data;
-
+  // const group = props.options
   const selected = ref(props.options)
   const query = ref('')
+  // const check = ref('')
 
   watch(() => props.options, () => {});
+
   const filteredGroup = computed(() =>
     query.value === ''
       ? props.options
       : props.options.filter((o) => 
-        (o.firstName + ' ' + o.lastName)
+        o.title
         .toLowerCase()
         .replace(/\s+/g, '')
         .includes(query.value.toLowerCase().replace(/\s+/g, ''))
       )
     )
 
-    const userdb = computed(() => { return store.state.userDB.data });
-    onMounted(() => { store.dispatch('getUserinDB'); });
-    watch(() => userdb, () => { console.log('db ' + userdb) });
-
-    function disable(id) {
-      const rId = props.userdb.filter((i) => i.user_id === id).map((r) => r.role)
-      return rId.length > 0 
-        ? true 
-        : false
-    }
-    function roleId(id) {
-      const rId = props.userdb.filter((i) => i.user_id === id).map((r) => r.role)[0];
-      const rTitle = role.filter((i) => i.id === rId).map((t) => t.title);
-      return rTitle.length > 0
-        ? `(${rTitle[0]})`
-        : ``
-    }
-
   const emit = defineEmits(['selected'])
   const check = () => {
-    // console.log(
-    //   selected.value.id
-    // )
-    emit('selected', selected.value.id)
+    console.log(
+      selected.value
+    )
+    emit('selected', selected.value.title)
   }
 </script>
 
 <style scoped>
   .cb-op {
     z-index: 1;
-  }
-  [aria-disabled="true"] {
-    color: #a3a3a3;
   }
 </style>

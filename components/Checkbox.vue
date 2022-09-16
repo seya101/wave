@@ -1,10 +1,18 @@
 <template>
   <div class="relative mt-3">
     <Listbox>
-      <ListboxLabel class="block text-sm font-medium text-gray-700"> {{ props.header }} </ListboxLabel>
+      <ListboxLabel 
+        class="block text-sm font-medium text-gray-700"
+      > 
+        {{ props.header }} 
+      </ListboxLabel>
     </Listbox>
     <div class="grid grid-2">
-      <div v-for="(option, optionIdx) in props.options" :key="option.id" class="inline-flex items-center">
+      <div 
+        v-for="(option, optionIdx) in props.options" 
+        :key="option.id" 
+        class="inline-flex items-center"
+      >
         <input 
           :id="`filter-mobile-${option.id}-${optionIdx}`" 
           :name="`${option.id}`" 
@@ -14,7 +22,10 @@
           @change="checkBox" 
           class="h-4 w-4 border-gray-300 rounded text-teal-600 focus:ring-teal-500" 
         />
-        <label :for="`filter-mobile-${option.id}-${optionIdx}`" class="text-gray-600 text-sm rg-lbl">
+        <label 
+          :for="`filter-mobile-${option.id}-${optionIdx}`" 
+          class="text-gray-600 text-sm rg-lbl"
+        >
             &nbsp;{{ option.title }}
         </label>
       </div>
