@@ -2,6 +2,12 @@
   <div>
     <!-- <NuxtLink to="/user/add" class="button is-success mt-5">Add New</NuxtLink> -->
     <NuxtLayout>
+      <div>
+          <h1 class="font-bold text-5xl text-gray-700">Users</h1>
+          <p class="text-gray-800 pt-2">
+            Subtitle of Page Title
+          </p>
+      </div>
       <Modal :showModal="showModal" :userdb="userdb" :message="message" :group="group" :role="role" :brands="brands" :users="users" @cbTeam="grpId" />
       <!-- <UserList :items="items" :name="userdata" :group="groupdata" :role="role" /> -->
       <UserList :userdb="userdb" :user_img="user_img" :fname="fname" :lname="lname" :grp="grp" :role="role" />

@@ -2,7 +2,16 @@
   <div>
     <NuxtLayout :users="users" >
       <div class="relative">
-        <div class="flex justify-end items-center pb-4 bg-white">
+        <div class="flex flex-col md:flex-row gap-10 justify-between items-center">
+        <div>
+            <h1 class="font-bold text-2xl text-gray-700">Quality Assurance</h1>
+            <p class="text-gray-800 pt-2">
+                Subtitle of Page Title
+            </p>
+        </div>
+        </div>
+        <div class="flex justify-end items-center pb-4">
+
           <Listbox />
           <ComboBox :options="querybrands" :placeholder="`Brands`" @selectedtitle="fetchTasks" class="w-[250px]" />
         </div>

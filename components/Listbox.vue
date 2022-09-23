@@ -11,6 +11,7 @@
             py-2 
             pl-3 
             pr-10 
+            px-10
             text-left 
             shadow-md 
             focus:outline-none 

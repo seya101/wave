@@ -5,10 +5,10 @@
         <!-- <Sidebar :user="user_api" /> -->
         <Sidebar />
       </div>
-      <div class="w-full ml-64 p-3">
+      <div class="w-full ml-20 p-3">
         <slot />
       </div>
-    </div>
+  </div>
   <!-- <div>
     <Sidebar />
     <slot />
